@@ -1,4 +1,5 @@
 const SpotifyWebApi = require("spotify-web-api-node");
+var cron = require("node-cron");
 
 var spotifyApi = new SpotifyWebApi({
   clientId: "baf66a9db8d34ca48e2e860c120de0a4",
@@ -6,7 +7,6 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: "http://www.example.com/callback"
 });
 
-// Passing a callback - get Elvis' albums in range [20...29]
 spotifyApi.clientCredentialsGrant()
   .then(function (data) {
     console.log('The access token expires in ' + data.body['expires_in']);
@@ -14,28 +14,32 @@ spotifyApi.clientCredentialsGrant()
 
     // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(data.body['access_token']);
-    // Passing a callback - get Elvis' albums in range [20...29]
-    // spotifyApi.getUser("222z3mnymzxnx2b5m6yj5vtri")
-    // .then(function(data) {
-    //     console.log("Some information about this user", data.body);
-    //   }, function(err) {
-    //     console.log("Something went wrong!", err);
-    //   });
+    var tracks = []
     spotifyApi
       .getPlaylist("37i9dQZEVXcEFGwy4vib4y")
       .then(
         function(data) {
-          //console.log("Retrieved playlists", data.body);
-          //console.log(data.body.items[0].tracks);
           for (const i of data.body.tracks.items) {
             console.log(`${i.track.name}`);
+            console.log(`${i.track.uri}`);
             console.log(`${i.track.href}\n`);
-            
+            tracks.push(i.track.uri);
           }
-          
-        },
-        function(err) {
-          console.log("Something went wrong!", err);
-        }
-      );
+          return tracks;
+        }, function(err) {
+        console.log("Something went wrong!", err);
+      })
+      .then(
+        // 4pTSMdTFjdf4R4K71WHTwI
+        function(tracks) {
+          console.log(tracks)
+          return tracks.forEach(track => {
+            spotifyApi.addTracksToPlaylist('4pTSMdTFjdf4R4K71WHTwI', tracks)
+              .then(function (data) {
+                console.log(`Added ${data} to playlist!`);
+              }, function (err) {
+                console.log('Something went wrong!', err);
+              });
+          });
+      }) 
   });
