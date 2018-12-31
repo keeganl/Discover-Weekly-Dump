@@ -4,7 +4,7 @@
   "description": "A script that uses the Spotify API to put all of the songs in the discover weekly into another playlist each week ",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Keegan Lawley",
   "license": "ISC",
