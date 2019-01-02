@@ -30,20 +30,19 @@ mb.on("ready", function ready() {
 
     var tracks = [];
     var url = "";
-
+    var state = "";
     var scopes = [
       "playlist-read-private",
       "playlist-modify-private",
       "playlist-modify-public"
     ];
-
-    var state = "";
-
+    
     var spotifyApi = new SpotifyWebApi({
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       redirectUri: process.env.REDIRECT_URI
     });
+
     var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
 
     (async () => {
