@@ -110,7 +110,7 @@ mb.on("ready", function ready() {
               (tracks) => {
                 spotifyApi.addTracksToPlaylist(
                   "4pTSMdTFjdf4R4K71WHTwI",
-                  tracks,
+                  tracksFi,
                   function (err) {
                     console.log(err);
                   }
