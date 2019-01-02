@@ -2,9 +2,7 @@ require("dotenv").config();
 const SpotifyWebApi = require("spotify-web-api-node");
 const figlet = require('figlet')
 const cron = require('node-cron');
-const readline = require("readline");
 const puppeteer = require("puppeteer");
-const electron = require("electron");
 var menubar = require("menubar");
 
 var mb = menubar();
@@ -32,10 +30,6 @@ mb.on("ready", function ready() {
 
     var tracks = [];
     var url = "";
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
 
     var scopes = [
       "playlist-read-private",
@@ -53,11 +47,13 @@ mb.on("ready", function ready() {
     var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
 
     (async () => {
-      function sleep(ms) {
+      
+      sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
 
-      const browser = await puppeteer.launch({ headless: false });
+      // logging into Spotify to give permissions 
+      const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.goto(authorizeURL);
       await sleep(2000);
@@ -74,6 +70,7 @@ mb.on("ready", function ready() {
       url = await page.url();
       await browser.close();
 
+      // grabbing the code from the response URL
       var a = url.split("code=");
       var b = a[1].split("&state=");
       let code = b[0];
@@ -93,7 +90,7 @@ mb.on("ready", function ready() {
           spotifyApi
             .getPlaylist("37i9dQZEVXcEFGwy4vib4y")
             .then(
-              function (data) {
+              (data) => {
                 for (const i of data.body.tracks.items) {
                   console.log(`${i.track.name}`);
                   console.log(`${i.track.uri}`);
@@ -102,16 +99,14 @@ mb.on("ready", function ready() {
                 }
                 return tracks;
               },
-              function (err) {
+              (err) => {
                 console.log("Something went wrong!", err);
-              },
-              function (err) {
-                console.log(err);
               }
             )
             .then(
+              // ID of playlist I want to dump into
               // 4pTSMdTFjdf4R4K71WHTwI
-              function (tracks) {
+              (tracks) => {
                 spotifyApi.addTracksToPlaylist(
                   "4pTSMdTFjdf4R4K71WHTwI",
                   tracks,
@@ -122,12 +117,10 @@ mb.on("ready", function ready() {
               }
             );
         },
-        function (err) {
+        (err) => {
           console.log("Something went wrong!", err);
         }
       );
-
-      //open.spotify.com/playlist/4pTSMdTFjdf4R4K71WHTwI?si=EKALJTRrQ8-DAFnpJp4fKw
     })();
   });
 });
