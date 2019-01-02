@@ -88,9 +88,11 @@ mb.on("ready", function ready() {
           spotifyApi.setRefreshToken(data.body["refresh_token"]);
 
           spotifyApi
+            // getting my Discover Weekly playlist
             .getPlaylist("37i9dQZEVXcEFGwy4vib4y")
             .then(
               (data) => {
+                // looping to get track names, URI's, and href's
                 for (const i of data.body.tracks.items) {
                   console.log(`${i.track.name}`);
                   console.log(`${i.track.uri}`);
