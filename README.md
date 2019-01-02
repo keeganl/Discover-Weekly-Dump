@@ -3,7 +3,7 @@
 This is a small app that runs in the background. It will only fire on Monday and copy all of the songs from your Discover Weekly playlist into another playlist of your choice. This makes it so that you never miss out on those songs.  
 
 
-![](https://media.giphy.com/media/w7v0T2bB11FRL8fUXo/giphy.gif)
+<img src="https://media.giphy.com/media/w7v0T2bB11FRL8fUXo/giphy.gif)" width="800" height="600" />
 
 
 ### To configure: 
