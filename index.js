@@ -48,7 +48,7 @@ mb.on("ready", function ready() {
 
     (async () => {
       
-      sleep = (ms) => {
+      const sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
 
