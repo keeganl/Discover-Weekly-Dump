@@ -1,5 +1,5 @@
 # Discover-Weekly-Dump
-## **Only supports OSX for now**
+### Only supports OSX for now
 ### To configure: 
 
 ```
