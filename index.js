@@ -9,7 +9,7 @@ var mb = menubar();
 mb.setOption("width", 0);
 mb.setOption("height", 0);
 mb.setOption("icon", `${__dirname}/icon.png`);
-mb.on("ready", function ready() {
+mb.on("ready", () => {
   cron.schedule("0 12 * * 1", () => {
     figlet.text(
       "Spotify Dump",
@@ -36,7 +36,7 @@ mb.on("ready", function ready() {
       "playlist-modify-private",
       "playlist-modify-public"
     ];
-    
+
     var spotifyApi = new SpotifyWebApi({
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
@@ -46,13 +46,13 @@ mb.on("ready", function ready() {
     var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
 
     (async () => {
-      
+
       const sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
 
-      // logging into Spotify to give permissions 
-      const browser = await puppeteer.launch();
+      // logging into Spotify to give permissions
+      const browser = await puppeteer.launch({ headless: false });
       const page = await browser.newPage();
       await page.goto(authorizeURL);
       await sleep(2000);
@@ -110,7 +110,7 @@ mb.on("ready", function ready() {
               (tracks) => {
                 spotifyApi.addTracksToPlaylist(
                   "4pTSMdTFjdf4R4K71WHTwI",
-                  tracksFi,
+                  tracks,
                   function (err) {
                     console.log(err);
                   }
