@@ -52,7 +52,7 @@ mb.on("ready", () => {
       }
 
       // logging into Spotify to give permissions
-      const browser = await puppeteer.launch({ headless: false });
+      const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.goto(authorizeURL);
       await sleep(2000);
