@@ -5,11 +5,11 @@ const cron = require('node-cron');
 const puppeteer = require("puppeteer");
 var menubar = require("menubar");
 
-var mb = menubar();
-mb.setOption("width", 0);
-mb.setOption("height", 0);
-mb.setOption("icon", `${__dirname}/icon.png`);
-mb.on("ready", () => {
+// var mb = menubar();
+// mb.setOption("width", 0);
+// mb.setOption("height", 0);
+// mb.setOption("icon", `${__dirname}/icon.png`);
+// mb.on("ready", () => {
   cron.schedule("0 12 * * 1", () => {
     figlet.text(
       "Spotify Dump",
@@ -124,6 +124,6 @@ mb.on("ready", () => {
       );
     })();
   });
-});
+// });
 
 
